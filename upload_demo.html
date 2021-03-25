@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Storage</title>
+</head>
+<body>
+    <h1>Cards game storage</h1>
+    <b> <a href ="search_demo.html">[ค้นหาผลิตภัณฑ์]</a><a>[ เพิ่มผลิตภัณฑ์ใหม่]</a><a href ="del.html">[นำผลิตภัณฑ์ออก]</a></b><hr>
+
+    <form  method="POST" enctype="multipart/form-data" >
+        ชื่อสินค้า<br>
+        <input type="text" name="goodsname" id="wn" style="width:99%;height:35px" placeholder="ระบุชื่อผลิตภัณฑ์"><br>
+        รายละเอียดสินค้า<br>
+        <Textarea rows="5" cols="50" id="otherreq" name="info" style="width:99%;height:200px" id="if"  placeholder="ระบุรายละเอียดผลิตภัณฑ์..."></Textarea><br>
+
+        <input type="file" name="image" id = "image">
+        <input type="submit" name="upload" value="upload" onclick="doSave()">
+
+    </form>
+        <a id="disp"></a>
+    
+</body>
+<script>
+    function doSave() {
+    var formElement = document.querySelector("form");
+    var formData = new FormData(formElement);
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            document.getElementById('disp').innerHTML = this.responseText;
+        }
+    }
+    request.open("POST", "upload.php");
+    request.send(formData);
+
+}
+</script>

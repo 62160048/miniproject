@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Storage</title>
+</head>
+<body>
+    <h1 >Cards game storage</h1>
+    <b> <a href ="search_demo.html">[ค้นหาผลิตภัณฑ์]</href><a href ="upload_demo.html">[ เพิ่มผลิตภัณฑ์ใหม่]</a><a>[นำผลิตภัณฑ์ออก]</href></b><hr>
+    <input type="text" id="keyword" placeholder="ใส่รหัสผลิตภัณฑ์ที่ต้องการนำออก" >
+    <button onclick="remove();" class="button1">Remove</button>
+    <hr> 
+    <table id = display></table>
+
+</body>
+
+<script>
+    list();
+    function list() {
+        keyword= document.getElementById('keyword').value;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                arr = JSON.parse(this.responseText);
+                if (arr.length == 0) {
+                    
+                } else {
+                    html="<tr><th>รหัสผลิตภัณฑ์</th><th>ชื่อผลิตภัณฑ์</th></tr>";
+                    for (i = 0; i < arr.length; i++) {
+                        html+="<tr><td align='center'>"+arr[i].goodsID+"</td><td>"
+                            +arr[i].goodsName+"</td></tr>";
+                           
+                    }
+                    document.getElementById('display').innerHTML = html;
+                    }
+                }document.getElementById('keyword').value = "";
+            }
+        parameters = "keyword=" + keyword;
+        xmlhttp.open("post", "search.php");
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send(parameters);
+    }
+    function remove() {
+        keyword= document.getElementById('keyword').value;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                arr = JSON.parse(this.responseText);
+
+                }
+            }
+        parameters = "keyword=" + keyword;
+        xmlhttp.open("post", "del.php");
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send(parameters);
+        location.reload();
+    }
+</script>
+</html>

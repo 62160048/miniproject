@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Storage</title>
+</head>
+<body>
+    <h1 >Cards game storage</h1>
+    <b>[ค้นหาผลิตภัณฑ์]<a href ="upload_demo.html">[ เพิ่มผลิตภัณฑ์ใหม่]</a><a href ="del.html">[นำผลิตภัณฑ์ออก]</a></b><hr>
+    <input type="text" id="keyword" placeholder="คุณกำลังหาอะไรอยู่?" >
+    <button onclick="search()" class="button1">Search</button>
+    <hr>
+    <div class="grid-container" id = display></div>  
+</body>
+
+<script>
+    search();
+    function search() {
+        keyword= document.getElementById('keyword').value;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                arr = JSON.parse(this.responseText);
+                if (arr.length == 0) {
+                    document.getElementById('display').innerHTML = "ไม่พบผลิตภัณฑ์ '"+keyword+"' ที่คุณค้นหา.";
+                } else {
+                    html = "";
+                    for (i = 0; i < arr.length; i++) {
+                        html+=  "<div class='grid-item'>"+"<center><img src='images/"+arr[i].image+ "'width='40%'></center><br>"
+                            +   "ชื่อผลิตภัณฑ์ : "+arr[i].goodsName 
+                            +   "<br><br>รายละเอียด : " + arr[i].info+"</div>"; 
+                    }
+                    document.getElementById('display').innerHTML = html;
+                    }
+                }document.getElementById('keyword').value = "";
+            }
+        parameters = "keyword=" + keyword;
+        xmlhttp.open("post", "search.php");
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send(parameters);
+    }
+</script>
+</html>
